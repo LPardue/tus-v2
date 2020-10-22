@@ -71,9 +71,11 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   3
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . .   3
+   3.  Upload Procedure  . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Service Discovery . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
+   7.  Normative References  . . . . . . . . . . . . . . . . . . . .   3
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   3
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
 
@@ -107,8 +109,6 @@ Table of Contents
 
 
 
-
-
 Kleidl                    Expires 25 April 2021                 [Page 2]
 
 Internet-Draft             TODO - Abbreviation              October 2020
@@ -122,15 +122,30 @@ Internet-Draft             TODO - Abbreviation              October 2020
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Upload Procedure
+
+   In order to initiate a resumable upload, the client MUST send a
+   "POST" request to a known upload URL, under which endpoint the server
+   supports resumable uploads as laid out in this document.  Possible
+   approaches for the client to obtain this upload URL as presented in
+   the section Service Discovery.
+
+   TODO: Request details
+
+4.  Service Discovery
+
+   TODO Discovery using the "Alt-Svc" header and/or "HTTPSSVC" DNS
+   record
+
+5.  Security Considerations
 
    TODO Security
 
-4.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  Normative References
+7.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -146,6 +161,14 @@ Acknowledgments
    TODO acknowledge.
 
 Author's Address
+
+
+
+
+Kleidl                    Expires 25 April 2021                 [Page 3]
+
+Internet-Draft             TODO - Abbreviation              October 2020
+
 
    Marius Kleidl
    Transloadit Ltd
@@ -165,4 +188,37 @@ Author's Address
 
 
 
-Kleidl                    Expires 25 April 2021                 [Page 3]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kleidl                    Expires 25 April 2021                 [Page 4]
