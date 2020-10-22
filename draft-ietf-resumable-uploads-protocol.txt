@@ -2,8 +2,8 @@
 
 
 
-TODO Working Group                                         H. Tschofenig
-Internet-Draft                                               Arm Limited
+TODO Working Group                                             M. Kleidl
+Internet-Draft                                           Transloadit Ltd
 Intended status: Informational                           22 October 2020
 Expires: 25 April 2021
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Tschofenig                Expires 25 April 2021                 [Page 1]
+Kleidl                    Expires 25 April 2021                 [Page 1]
 
 Internet-Draft             TODO - Abbreviation              October 2020
 
@@ -70,16 +70,49 @@ Internet-Draft             TODO - Abbreviation              October 2020
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   2
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   2
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   2
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . .   2
+   2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   3
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Normative References  . . . . . . . . . . . . . . . . . . . .   3
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   3
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
 
 1.  Introduction
 
-   TODO Introduction
+   HTTP already provides resumable downloads using the "Range" header.
+   However, on its own HTTP does not contain a standardized mechanism
+   for resumable uploads.  This has lead to a situation where many web
+   services implement a proprietary solution for handling connection
+   issues during file uploads.  Such a scattered landscape makes it
+   impossible to develop clients with resumable upload capabilities in a
+   generic approach without focusing on specific, proprietary solutions.
+
+   Resumable uploads allow to resume a previously interrupted uploaded
+   and continue the data transfer where it was left without the need of
+   transferring the previous file content again.  This capability is
+   especially important in applications handling large files or
+   operating in areas with unreliable network infrastructure.  The
+   upload interruptions can occur voluntarily, i.e. the end-user wants
+   to pause the upload, or involuntarily, i.e. the network connection
+   drops.
+
+   This protocol specifies an approach for clients and servers to
+   implement resumable uploads on top of HTTP/1.1 and HTTP/2, allowing
+   the reuse of existing infrastructure.
+
+
+
+
+
+
+
+
+
+
+Kleidl                    Expires 25 April 2021                 [Page 2]
+
+Internet-Draft             TODO - Abbreviation              October 2020
+
 
 2.  Conventions and Definitions
 
@@ -104,16 +137,6 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-
-
-
-Tschofenig                Expires 25 April 2021                 [Page 2]
-
-Internet-Draft             TODO - Abbreviation              October 2020
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -124,12 +147,10 @@ Acknowledgments
 
 Author's Address
 
-   Hannes Tschofenig
-   Arm Limited
+   Marius Kleidl
+   Transloadit Ltd
 
-   Email: hannes.tschofenig@arm.com
-
-
+   Email: marius@transloadit.com
 
 
 
@@ -144,25 +165,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tschofenig                Expires 25 April 2021                 [Page 3]
+Kleidl                    Expires 25 April 2021                 [Page 3]
