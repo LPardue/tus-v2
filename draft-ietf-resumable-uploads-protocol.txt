@@ -4,8 +4,8 @@
 
 TODO Working Group                                             M. Kleidl
 Internet-Draft                                           Transloadit Ltd
-Intended status: Informational                           23 October 2020
-Expires: 26 April 2021
+Intended status: Informational                          12 November 2020
+Expires: 16 May 2021
 
 
                     tus - Resumable Uploads Protocol
@@ -41,22 +41,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2021.
+   This Internet-Draft will expire on 16 May 2021.
 
 Copyright Notice
 
    Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
-
-
-
-
-
-Kleidl                    Expires 26 April 2021                 [Page 1]
-
-Internet-Draft             TODO - Abbreviation              October 2020
-
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
@@ -69,15 +59,23 @@ Internet-Draft             TODO - Abbreviation              October 2020
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   3
-   3.  Upload Procedure  . . . . . . . . . . . . . . . . . . . . . .   3
-   4.  Service Discovery . . . . . . . . . . . . . . . . . . . . . .   3
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
-   7.  Normative References  . . . . . . . . . . . . . . . . . . . .   3
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Uploading Procedure
+     3.1.  Upload Creation Procedure
+     3.2.  Offset Retriving Procedure
+     3.3.  Upload Appending Procedure
+     3.4.  Upload Cancellation Procedure
+   4.  Header Fields
+   5.  The Upload-Token Header Field
+   6.  The Upload-Index Header Field
+   7.  The Upload-Offset Header Field
+   8.  Service Discovery
+   9.  Security Considerations
+   10. IANA Considerations
+   11. Normative References
+   Acknowledgments
+   Author's Address
 
 1.  Introduction
 
@@ -103,17 +101,6 @@ Table of Contents
    implement resumable uploads on top of HTTP/1.1 and HTTP/2, allowing
    the reuse of existing infrastructure.
 
-
-
-
-
-
-
-Kleidl                    Expires 26 April 2021                 [Page 2]
-
-Internet-Draft             TODO - Abbreviation              October 2020
-
-
 2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -122,30 +109,85 @@ Internet-Draft             TODO - Abbreviation              October 2020
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Upload Procedure
+3.  Uploading Procedure
+
+   The uploading of a file using the Resumable Uploads Protocol consists
+   of multiple procedures: 1.  The Upload Creation Procedure sends a
+   "POST" request to the server, notifying the server that the client
+   wants to begin an upload.  The server should then reserve the
+   required resources to accept the upload from the client.  The client
+   also begins transferring the file in the request body. 2.  If the
+   connection to the server gets intrrupted during the Upload Creation
+   Procedure or the Upload Appending Procedure, the client may want to
+   resume the upload.  Before this is possible, the client must know the
+   amount of data that the server was able to receive before the
+   connection got interrupted.  To achieve this, the client uses the
+   Offset Retriving Procedure to obtain the upload's offset. 3. 4.
+
+3.1.  Upload Creation Procedure
 
    In order to initiate a resumable upload, the client MUST send a
    "POST" request to a known upload URL, under which endpoint the server
    supports resumable uploads as laid out in this document.  Possible
    approaches for the client to obtain this upload URL as presented in
-   the section Service Discovery.
+   the section Service Discovery.  This "POST" request MUST include the
+   Upload-Token header and have it set to a unique value (TODO: More
+   constraint to ensure its uniqueness).
+
+   ``` POST /uploads HTTP/1.1 Host: example.org Upload-Token: abcdef
+   Content-Length: ...
+
+   [file content]
+
+   HTTP/1.1 204 No Content ```
+
+3.2.  Offset Retriving Procedure
+
+   ``` HEAD /uploads HTTP/1.1 Host: example.org Upload-Token: abcdef
+   Content-Length: 0
+
+   HTTP/1.1 204 No Content Upload-Offset: 100 ```
+
+3.3.  Upload Appending Procedure
+
+   ``` HEAD /uploads HTTP/1.1 Host: example.org Upload-Token: abcdef
+   Upload-Offset: 100
+
+   [file content]
+
+   HTTP/1.1 204 No Content Upload-Offset: 200 ```
+
+3.4.  Upload Cancellation Procedure
+
+   ``` DELETE /uploads HTTP/1.1 Host: example.org Upload-Token: abcdef
+   Content-Length: 0
+
+   HTTP/1.1 204 No Content ```
 
    TODO: Request details
 
-4.  Service Discovery
+4.  Header Fields
+
+5.  The Upload-Token Header Field
+
+6.  The Upload-Index Header Field
+
+7.  The Upload-Offset Header Field
+
+8.  Service Discovery
 
    TODO Discovery using the "Alt-Svc" header and/or "HTTPSSVC" DNS
    record
 
-5.  Security Considerations
+9.  Security Considerations
 
    TODO Security
 
-6.  IANA Considerations
+10.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  Normative References
+11.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -162,63 +204,7 @@ Acknowledgments
 
 Author's Address
 
-
-
-
-Kleidl                    Expires 26 April 2021                 [Page 3]
-
-Internet-Draft             TODO - Abbreviation              October 2020
-
-
    Marius Kleidl
    Transloadit Ltd
 
    Email: marius@transloadit.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kleidl                    Expires 26 April 2021                 [Page 4]
